@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Neonderthaw&display=swap" rel="stylesheet">
+  <title>Beer Api</title>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__logo">
+        <h1 class="header__logo-title">Beer Api</h1>
+        <p class="header__logo-description">Do you love beer as we love it?</p>
+      </div>
+      <div class="favourites">
+        <button class="favourites__button">
+          <span>Favourites:</span>
+          <span class="favourites__counter">0</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="main">
+      <div class="search">
+        <input class="search__input" type="text" placeholder="Want some beer?">
+        <div class="search__icon">
+          <img class="search__icon-img" src="./app/assets/icons/search-solid.svg">
+        </div>
+      </div>
+
+      <div class="recent-searches"></div>
+
+      <div class="results"></div>
+    </section>
+  </div>
+</body>
+</html>
