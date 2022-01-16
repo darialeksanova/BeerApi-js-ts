@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './index.js',
+  entry: './src/index.ts',
   mode: 'development',
   output: {
     filename: 'bundle.js',
@@ -10,4 +10,16 @@ module.exports = {
   infrastructureLogging: {
     level: 'none',
   },
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.ts']
+  }
 };
