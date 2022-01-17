@@ -40,7 +40,7 @@ function handleSearchInput(event: KeyboardEvent): void {
   }
 }
 
-function handleSearchButtonClick() {
+function handleSearchButtonClick(): void {
   const searchInputElement = document.querySelector('.search__input');
   const searchButtonElement = document.querySelector('.search__button');
 
@@ -90,7 +90,7 @@ function searchBeer(searchInputValue: string): void {
     .catch(error => console.error('Error on beers search!', error));
 }
 
-function addsearchInputValueToRecentSearches(searchInputValue: string) {
+function addsearchInputValueToRecentSearches(searchInputValue: string): void {
   const recentSearchesElement = document.querySelector('.recent-searches');
   const recentSearchValues: Array<string> = [];
 
@@ -100,9 +100,21 @@ function addsearchInputValueToRecentSearches(searchInputValue: string) {
       .forEach(recentSearchesItem => recentSearchValues.push(recentSearchesItem.textContent || ''));
 
       if (!recentSearchValues.includes(searchInputValue)) {
-        recentSearchesElement?.append(new RecentSearchesItem(searchInputValue).element);
+        const recentSearchesItemElement = new RecentSearchesItem(searchInputValue).element;
+        recentSearchesElement?.append(recentSearchesItemElement);
+        recentSearchesItemElement.addEventListener('click', handleRecentSearchesItemClick);
       } else {
         return;
       }
+  }
+}
+
+function handleRecentSearchesItemClick(event: MouseEvent): void {
+  const eventTarget = event.target as HTMLParagraphElement;
+  let searchValue = eventTarget.textContent || '';
+  const searchInputElement = document.querySelector('.search__input');
+  if (searchInputElement instanceof HTMLInputElement) {
+    searchInputElement.value = searchValue;
+    searchBeer(searchValue);
   }
 }
