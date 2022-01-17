@@ -1,12 +1,11 @@
 import { Beer } from '../../types/beer';
 
 export class BeerCardElement {
-  #element;
+  private _element = document.createElement('li');
 
   constructor(beer: Beer) {
-    this.#element = document.createElement('li');
-    this.#element.classList.add('card');
-    this.#element.innerHTML = `
+    this._element.classList.add('card');
+    this._element.innerHTML = `
       <div class="card__actions">
         <button class="card__actions-button">
           <img src="../../../assets/icons/heart-solid.svg" alt="favourite">
@@ -21,7 +20,7 @@ export class BeerCardElement {
       </div>`;
   }
 
-  get element() {
-    return this.#element;
+  public get element() {
+    return this._element;
   }
 }
