@@ -1,13 +1,12 @@
 export class RecentSearchesItem {
-  #element;
+  private _element = document.createElement('li');
 
   constructor(searchInputValue: string) {
-    this.#element = document.createElement('li');
-    this.#element.classList.add('resent-searches-item');
-    this.#element.innerHTML = `<p class="resent-searches-item__text">${searchInputValue}</p>`;
+    this._element.classList.add('resent-searches-item');
+    this._element.innerHTML = `<p class="resent-searches-item__text">${searchInputValue}</p>`;
   }
 
-  get element() {
-    return this.#element;
+  public get element(): HTMLLIElement {
+    return this.element;
   }
 }
