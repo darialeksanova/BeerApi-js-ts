@@ -7,6 +7,6 @@ export class RecentSearchesItem {
   }
 
   public get element(): HTMLLIElement {
-    return this.element;
+    return this._element;
   }
 }
