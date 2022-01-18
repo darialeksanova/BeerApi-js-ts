@@ -1,6 +1,7 @@
 import { Beer } from '../../types/beer';
-import { getFavouritesButtonElement } from '../../utils/element-getters/get-favourites-button-element';
-import { getfavouritesCounterElement } from '../../utils/element-getters/get-favourites-counter-element';
+import { getFavouritesCounterElement } from '../../utils/element-getters/get-favourites-counter-element';
+import { disableFavouritesButton } from '../../utils/favourites-service/disable-favourites-button';
+import { enableFavouritesButton } from '../../utils/favourites-service/enable-favourites-button';
 
 export class BeerCardElement {
   private _element: HTMLLIElement = document.createElement('li');
@@ -10,6 +11,7 @@ export class BeerCardElement {
     this._element.innerHTML = `
       <div class="card__actions">
         <button class="card__actions-add-to-favourites-button">Add</button>
+        <button class="card__actions-remove-from-favourites-button">Remove</button>
       </div>
       <div class="card__img">
         <img src=${beer.image_url} alt="image not found">
@@ -32,7 +34,6 @@ export class BeerCardElement {
   }
 
   private addItemToFavourites(): void {
-    const favouritesCounterElement: HTMLSpanElement = getfavouritesCounterElement();
     const beerObjToLocalStorage: Beer = {
       image_url: this.beer.image_url,
       name: this.beer.name,
@@ -42,31 +43,47 @@ export class BeerCardElement {
     
     if(!favouriteBeersFromStorageAsString) {
       localStorage.setItem('favouriteBeers', JSON.stringify([beerObjToLocalStorage]));
-      favouritesCounterElement.textContent = `${Number(favouritesCounterElement.textContent) + 1}`;
+      this.updateFavouritesCount([beerObjToLocalStorage]);
       this.changeAddButtonToRemoveButton();
-      this.enableFavouritesButton();
+      this.setRemoveFromFavouritesButtonClickLIstener();
+      enableFavouritesButton();
     } else {
       const favouriteBeersFromStorageParsed: Beer[] = JSON.parse(favouriteBeersFromStorageAsString);
       const beerItemIndexInLocalStorage: number = favouriteBeersFromStorageParsed.findIndex((beer: Beer) => beer.name === beerObjToLocalStorage.name);
 
       if (beerItemIndexInLocalStorage === -1) {
         localStorage.setItem('favouriteBeers', JSON.stringify([...favouriteBeersFromStorageParsed, beerObjToLocalStorage]));
-        favouritesCounterElement.textContent = `${Number(favouritesCounterElement.textContent) + 1}`;
+        this.updateFavouritesCount([...favouriteBeersFromStorageParsed, beerObjToLocalStorage]);
         this.changeAddButtonToRemoveButton();
-        this.enableFavouritesButton();
+        this.setRemoveFromFavouritesButtonClickLIstener();
       }
     }
   }
 
-  private changeAddButtonToRemoveButton(): void {
-    const addToFavouritesButton: HTMLButtonElement = this.getAddToFavouritesButton();
-    addToFavouritesButton.style.backgroundColor = 'rgb(126, 53, 53)';
-    addToFavouritesButton.textContent = 'Remove';
+  private setRemoveFromFavouritesButtonClickLIstener(): void {
+    const removeFromFavouritesButton: HTMLButtonElement = this.getRemoveFromFavouritesButton();
+    removeFromFavouritesButton.addEventListener('click', this.removeItemFromFavourites.bind(this));
   }
 
-  private enableFavouritesButton(): void {
-    const favouritesButtonElement: HTMLButtonElement = getFavouritesButtonElement();
-    favouritesButtonElement.classList.remove('disabled');
+  private removeItemFromFavourites(): void {
+    const favouriteBeersFromStorageAsString: string | null = localStorage.getItem('favouriteBeers');
+
+    if (!favouriteBeersFromStorageAsString) {
+      return;
+    }
+
+    const favouriteBeersFromStorageParsed: Beer[] = JSON.parse(favouriteBeersFromStorageAsString);
+    const favouriteBeersUpdated: Beer[] = favouriteBeersFromStorageParsed.filter((beer: Beer) => beer.name !== this.beer.name);
+    
+    if (!favouriteBeersUpdated.length) {
+      localStorage.removeItem('favouriteBeers');
+      disableFavouritesButton();
+    } else {
+      localStorage.setItem('favouriteBeers', JSON.stringify(favouriteBeersUpdated));
+    }
+
+    this.updateFavouritesCount(favouriteBeersUpdated);
+    this.changeRemoveButtonToAddButton();
   }
 
   private getAddToFavouritesButton(): HTMLButtonElement {
@@ -77,5 +94,34 @@ export class BeerCardElement {
     }
 
     return addToFavouritesButton;
+  }
+
+  private getRemoveFromFavouritesButton(): HTMLButtonElement {
+    const removeFromFavouritesButton: HTMLButtonElement | null = this._element.querySelector<HTMLButtonElement>('.card__actions-remove-from-favourites-button');
+
+    if (!removeFromFavouritesButton) {
+      throw new Error('Add to favourites button not found!');
+    }
+
+    return removeFromFavouritesButton;
+  }
+
+  private changeAddButtonToRemoveButton(): void {
+    const addToFavouritesButton: HTMLButtonElement = this.getAddToFavouritesButton();
+    const removeFromFavouritesButton: HTMLButtonElement = this.getRemoveFromFavouritesButton();
+    addToFavouritesButton.style.display = 'none';
+    removeFromFavouritesButton.style.display = 'flex';
+  }
+
+  private changeRemoveButtonToAddButton(): void {
+    const removeFromFavouritesButton: HTMLButtonElement = this.getRemoveFromFavouritesButton();
+    const addToFavouritesButton: HTMLButtonElement = this.getAddToFavouritesButton();
+    addToFavouritesButton.style.display = 'flex';
+    removeFromFavouritesButton.style.display = 'none';
+  }
+
+  private updateFavouritesCount(favouriteBeers: Beer[]): void {
+    const favouritesCounterElement: HTMLSpanElement = getFavouritesCounterElement();
+    favouritesCounterElement.textContent = `${favouriteBeers.length}`;
   }
 }
