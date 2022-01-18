@@ -1,5 +1,5 @@
 export function getLoadMoreButtonElement(): HTMLButtonElement {
-  const loadMoreButtonElement = document.querySelector<HTMLButtonElement>('.actions__load-more');
+  const loadMoreButtonElement: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>('.actions__load-more');
   
   if (!loadMoreButtonElement) {
     throw new Error('Load more button element not found!');

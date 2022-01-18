@@ -7,9 +7,9 @@ import { handleSearchButtonClick } from "./utils/search-service/handle-search-bu
 import { handleMainScroll } from "./utils/navigation-service/handle-main-scroll";
 
 function main(): void {
-  const searchInputElement = getSearchInputElement();
-  const searchButtonElement = getSearchButtonElement();
-  const mainElement = getMainElement();
+  const searchInputElement: HTMLInputElement = getSearchInputElement();
+  const searchButtonElement: HTMLButtonElement = getSearchButtonElement();
+  const mainElement: HTMLElement = getMainElement();
 
   searchInputElement.addEventListener('keyup', handleSearchInput);
   searchButtonElement.addEventListener('click', handleSearchButtonClick);

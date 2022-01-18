@@ -33,8 +33,8 @@ export function searchBeer(searchInputValue: string): void {
         showLoadMoreButton();
         showNavigateToTheTopArrow();
 
-        const loadMoreButtonElement = getLoadMoreButtonElement();
-        const toTheTopButtonElement = getToTheTopButtonElement();
+        const loadMoreButtonElement: HTMLButtonElement = getLoadMoreButtonElement();
+        const toTheTopButtonElement: HTMLButtonElement = getToTheTopButtonElement();
       
         loadMoreButtonElement.addEventListener('click', () => handleLoadMoreButtonClick(searchResults));
         toTheTopButtonElement.addEventListener('click', handleNavigateToTheTopButtonClick);
