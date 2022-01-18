@@ -1,4 +1,4 @@
-export function getfavouritesCounterElement(): HTMLSpanElement {
+export function getFavouritesCounterElement(): HTMLSpanElement {
   const favouritesCounterElement: HTMLSpanElement | null = document.querySelector<HTMLSpanElement>('.favourites__counter');
   
   if (!favouritesCounterElement) {
