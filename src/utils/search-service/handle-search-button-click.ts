@@ -2,6 +2,6 @@ import { getSearchInputElement } from "../element-getters/get-search-input-eleme
 import { searchBeer } from "./seerch-beer";
 
 export function handleSearchButtonClick(): void {
-  const searchInputElementValue = getSearchInputElement().value;
+  const searchInputElementValue: string = getSearchInputElement().value;
   searchBeer(searchInputElementValue);
 }

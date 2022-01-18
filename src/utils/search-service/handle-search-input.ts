@@ -3,8 +3,8 @@ import { getSearchButtonElement } from "../element-getters/get-search-button-ele
 import { searchBeer } from "./seerch-beer";
 
 export function handleSearchInput(event: KeyboardEvent): void {
-  const searchButtonElement = getSearchButtonElement();
-  const searchInput = event.target as HTMLInputElement;
+  const searchButtonElement: HTMLButtonElement = getSearchButtonElement();
+  const searchInput: HTMLInputElement = event.target as HTMLInputElement;
 
   if (searchInput.value) {
     searchButtonElement.classList.remove('disabled');

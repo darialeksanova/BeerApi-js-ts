@@ -1,5 +1,5 @@
 export function getResultsListElement(): HTMLUListElement {
-  const resultsListElement = document.querySelector<HTMLUListElement>('.results');
+  const resultsListElement: HTMLUListElement | null = document.querySelector<HTMLUListElement>('.results');
   
   if (!resultsListElement) {
     throw new Error('Results list element not found!');

@@ -3,7 +3,7 @@ import { getMainElement } from "../element-getters/get-main-element";
 import { getResultsListElement } from "../element-getters/get-results-list-element";
 
 export function displaySearchResults(searchResults: HTMLLIElement[]): void {
-  const resultsListElement = getResultsListElement();
+  const resultsListElement: HTMLUListElement = getResultsListElement();
   const mainElement = getMainElement();
   resultsListElement.innerHTML = '';
 
@@ -14,7 +14,7 @@ export function displaySearchResults(searchResults: HTMLLIElement[]): void {
       }
     });
   } else {
-    const errorElement = document.createElement('h2');
+    const errorElement: HTMLHeadingElement = document.createElement('h2');
     errorElement.textContent = 'There were no properties found for the given location.';
     resultsListElement.append(errorElement);
   }

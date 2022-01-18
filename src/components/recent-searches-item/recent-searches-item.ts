@@ -1,5 +1,5 @@
 export class RecentSearchesItem {
-  private _element = document.createElement('li');
+  private _element:HTMLLIElement = document.createElement('li');
 
   constructor(searchInputValue: string) {
     this._element.classList.add('resent-searches-item');
