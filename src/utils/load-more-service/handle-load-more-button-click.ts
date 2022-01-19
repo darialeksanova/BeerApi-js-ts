@@ -1,5 +1,6 @@
 import { getResultsListElement } from "../element-getters/get-results-list-element";
 import { hideLoadMoreButton } from "./hide-load-more-button";
+import { showNoMoreResultsErrorMessage } from "./show-no-more-results-error-message";
 
 export function handleLoadMoreButtonClick(searchResults: HTMLLIElement[]): void {
   const resultsListElement: HTMLUListElement = getResultsListElement();
@@ -9,10 +10,8 @@ export function handleLoadMoreButtonClick(searchResults: HTMLLIElement[]): void 
   if (resultsToShow.length >= 5) {
     resultsToShow.forEach(beerElement => resultsListElement.append(beerElement));
   } else {
-    const noMoreResultsErrorMessageElement: HTMLParagraphElement = document.createElement('p');
-    
+    resultsToShow.forEach(beerElement => resultsListElement.append(beerElement));
     hideLoadMoreButton();
-    noMoreResultsErrorMessageElement.textContent = 'No more results found :(';
-    resultsListElement.append(noMoreResultsErrorMessageElement);
+    showNoMoreResultsErrorMessage();
   }
 }

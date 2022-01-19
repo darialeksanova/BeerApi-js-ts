@@ -1,22 +1,24 @@
 import { Beer } from '../../types/beer';
 import { BeerCardOptions } from '../../types/beer-card-options';
 import { getFavouritesCounterElement } from '../../utils/element-getters/get-favourites-counter-element';
+import { getMainElement } from '../../utils/element-getters/get-main-element';
 import { disableFavouritesButton } from '../../utils/favourites-service/disable-favourites-button';
 import { enableFavouritesButton } from '../../utils/favourites-service/enable-favourites-button';
+import { SingleItemModalWindow } from '../single-item-modal-window/single-item-modal-window';
 
 export class BeerCardElement {
   private _element: HTMLLIElement = document.createElement('li');
 
-  constructor(private beer: Beer, options?: BeerCardOptions) {
+  constructor(private beerItem: Beer, options?: BeerCardOptions) {
     this._element.classList.add('card');
     this._element.innerHTML = `
       <div class="card__actions"></div>
       <div class="card__img">
-        <img src=${beer.image_url} alt="image not found">
+        <img src=${beerItem.image_url} alt="image not found">
       </div>
       <div class="card__text">
-        <h2 class="card__text-title">${beer.name}</h2>
-        <p class="card__text-description">${beer.description}</p>
+        <h2 class="card__text-title">${beerItem.name}</h2>
+        <p class="card__text-description">${beerItem.description}</p>
       </div>`;
 
     
@@ -25,6 +27,8 @@ export class BeerCardElement {
     } else {
       this.placeAddButtonOnTheCard();
     }
+
+    this.setImageClickEventListener();
   }
 
   public get element(): HTMLLIElement {
@@ -51,6 +55,12 @@ export class BeerCardElement {
     removeFromFavouritesButtonElement.addEventListener('click', this.removeItemFromFavourites.bind(this));
   }
 
+  private setImageClickEventListener(): void {
+    const cardImageElement: HTMLDivElement = this.getCardImageElement();
+
+    cardImageElement.addEventListener('click', this.openSingleItemModal.bind(this));
+  }
+
   private getCardActionsElement(): HTMLDivElement {
     const cardActionsElement: HTMLDivElement | null = this._element.querySelector<HTMLDivElement>('.card__actions');
 
@@ -61,11 +71,21 @@ export class BeerCardElement {
     return cardActionsElement;
   }
 
+  private getCardImageElement(): HTMLDivElement {
+    const cardImageElement: HTMLDivElement | null = this._element.querySelector<HTMLDivElement>('.card__img');
+
+    if (!cardImageElement) {
+      throw new Error('Card image element not found!');
+    }
+
+    return cardImageElement;
+  }
+
   private addItemToFavourites(): void {
     const beerObjToLocalStorage: Beer = {
-      image_url: this.beer.image_url,
-      name: this.beer.name,
-      description: this.beer.description,
+      image_url: this.beerItem.image_url,
+      name: this.beerItem.name,
+      description: this.beerItem.description,
     }
     const favouriteBeersFromStorageAsString: string | null = localStorage.getItem('favouriteBeers');
     
@@ -94,7 +114,7 @@ export class BeerCardElement {
     }
 
     const favouriteBeersFromStorageParsed: Beer[] = JSON.parse(favouriteBeersFromStorageAsString);
-    const favouriteBeersUpdated: Beer[] = favouriteBeersFromStorageParsed.filter((beer: Beer) => beer.name !== this.beer.name);
+    const favouriteBeersUpdated: Beer[] = favouriteBeersFromStorageParsed.filter((beer: Beer) => beer.name !== this.beerItem.name);
     
     if (!favouriteBeersUpdated.length) {
       localStorage.removeItem('favouriteBeers');
@@ -105,6 +125,11 @@ export class BeerCardElement {
 
     this.updateFavouritesCount(favouriteBeersUpdated);
     this.changeRemoveButtonToAddButton();
+  }
+
+  private openSingleItemModal(): void {
+    const mainElement: HTMLElement = getMainElement();
+    mainElement.append(new SingleItemModalWindow(this.beerItem).element);
   }
 
   private getAddToFavouritesButton(): HTMLButtonElement {
