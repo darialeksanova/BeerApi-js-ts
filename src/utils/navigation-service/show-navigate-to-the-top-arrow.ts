@@ -2,5 +2,6 @@ import { getToTheTopButtonElement } from "../element-getters/get-to-the-top-butt
 
 export function showNavigateToTheTopArrow(): void {
   const toTheTopButtonElement: HTMLButtonElement = getToTheTopButtonElement();
+  
   toTheTopButtonElement.style.display = 'flex';
 }

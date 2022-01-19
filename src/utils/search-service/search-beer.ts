@@ -9,6 +9,7 @@ import { showLoadMoreButton } from "../load-more-service/show-load-more-button";
 import { handleNavigateToTheTopButtonClick } from "../navigation-service/handle-navigate-to-the-top-button-click";
 import { showNavigateToTheTopArrow } from "../navigation-service/show-navigate-to-the-top-arrow";
 import { addSearchValueToRecentSearches } from "./add-search-value-to-recent-searches";
+import { checkIfIsFavourite } from "./check-if-is-favourite";
 import { displaySearchResults } from "./display-search-results";
 
 export function searchBeer(searchInputValue: string): void {
@@ -21,10 +22,11 @@ export function searchBeer(searchInputValue: string): void {
     })
     .then((beers: Beer[]): void => {
       const searchResults: HTMLLIElement[] = [];
-      beers.forEach(beer => {
+      
+      beers.forEach((beer: Beer) => {
         if (beer.name.toLowerCase().includes(searchInputValue.toLowerCase()) 
           || beer.description.toLowerCase().includes(searchInputValue.toLowerCase())) {
-            searchResults.push(new BeerCardElement(beer).element);
+            searchResults.push(new BeerCardElement(beer, { isFavourite: checkIfIsFavourite(beer) }).element);
         }
       });
 
