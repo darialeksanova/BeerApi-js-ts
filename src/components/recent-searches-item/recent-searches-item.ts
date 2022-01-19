@@ -26,10 +26,10 @@ export class RecentSearchesItem {
       throw new Error('Recent searches item text element not found');
     }
 
-    let searchValue: string = recentSearchesItemTextElement.textContent || '';
-  
+    const searchValue: string = recentSearchesItemTextElement.textContent || '';
     const searchInputElement: HTMLInputElement = getSearchInputElement();
-      searchInputElement.value = searchValue;
-      searchBeer(searchValue);
+
+    searchInputElement.value = searchValue;
+    searchBeer(searchValue);
   }
 }

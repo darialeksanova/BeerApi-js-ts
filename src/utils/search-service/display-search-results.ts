@@ -5,6 +5,7 @@ import { getResultsListElement } from "../element-getters/get-results-list-eleme
 export function displaySearchResults(searchResults: HTMLLIElement[]): void {
   const resultsListElement: HTMLUListElement = getResultsListElement();
   const mainElement = getMainElement();
+
   resultsListElement.innerHTML = '';
 
   if (searchResults.length) {
@@ -15,6 +16,7 @@ export function displaySearchResults(searchResults: HTMLLIElement[]): void {
     });
   } else {
     const errorElement: HTMLHeadingElement = document.createElement('h2');
+    
     errorElement.textContent = 'There were no properties found for the given location.';
     resultsListElement.append(errorElement);
   }

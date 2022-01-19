@@ -9,8 +9,9 @@ export function handleLoadMoreButtonClick(searchResults: HTMLLIElement[]): void 
   if (resultsToShow.length >= 5) {
     resultsToShow.forEach(beerElement => resultsListElement.append(beerElement));
   } else {
-    hideLoadMoreButton();
     const noMoreResultsErrorMessageElement: HTMLParagraphElement = document.createElement('p');
+    
+    hideLoadMoreButton();
     noMoreResultsErrorMessageElement.textContent = 'No more results found :(';
     resultsListElement.append(noMoreResultsErrorMessageElement);
   }

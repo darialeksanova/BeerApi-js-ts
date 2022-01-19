@@ -2,5 +2,6 @@ import { getLoadMoreButtonElement } from "../element-getters/get-load-more-butto
 
 export function showLoadMoreButton(): void {
   const loadMoreButtonElement: HTMLButtonElement | null = getLoadMoreButtonElement();
+  
   loadMoreButtonElement.style.display = 'block';
 }

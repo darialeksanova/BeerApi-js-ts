@@ -12,6 +12,7 @@ export function showFavouritesCount(): void {
     disableFavouritesButton();
   } else {
     const favouriteBeersFromStorageParsed: Beer[] = JSON.parse(favouriteBeersFromStorageAsString);
+    
     favouritesCounterElement.textContent = `${favouriteBeersFromStorageParsed.length}`;
     enableFavouritesButton();
   }

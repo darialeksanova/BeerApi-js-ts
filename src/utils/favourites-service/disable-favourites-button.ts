@@ -2,5 +2,6 @@ import { getFavouritesButtonElement } from "../element-getters/get-favourites-bu
 
 export function disableFavouritesButton(): void {
   const favouritesButtonElement: HTMLButtonElement = getFavouritesButtonElement();
+  
   favouritesButtonElement.classList.add('disabled');
 }

@@ -22,6 +22,7 @@ export function searchBeer(searchInputValue: string): void {
     })
     .then((beers: Beer[]): void => {
       const searchResults: HTMLLIElement[] = [];
+      
       beers.forEach((beer: Beer) => {
         if (beer.name.toLowerCase().includes(searchInputValue.toLowerCase()) 
           || beer.description.toLowerCase().includes(searchInputValue.toLowerCase())) {

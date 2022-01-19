@@ -3,5 +3,6 @@ import { getMainElement } from "../element-getters/get-main-element";
 
 export function handleFavouritesButtonClick(): void {
   const mainElement: HTMLElement = getMainElement();
+  
   mainElement.append(new ModalWindowElement().element);
 }

@@ -10,6 +10,7 @@ export function showRecentSearches(): void {
   }
 
   const recentSearchesFromStorageAsArray: string[] = Array.from(JSON.parse(recentSearchesFromStorageAsString));
+  
   recentSearchesFromStorageAsArray.forEach(searchValue => {
     recentSearchesElement.append(new RecentSearchesItem(searchValue).element);
   });

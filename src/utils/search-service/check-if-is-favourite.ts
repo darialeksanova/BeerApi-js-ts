@@ -9,6 +9,7 @@ export function checkIfIsFavourite(beer: Beer): boolean {
   }
   
   const favouriteBeersFromStorageAsArray: Beer[] = Array.from(JSON.parse(favouriteBeersFromStorageAsString));
+  
   result = favouriteBeersFromStorageAsArray.some((beerFromStorage: Beer) => beerFromStorage.name === beer.name);
 
   return result;

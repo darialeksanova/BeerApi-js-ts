@@ -34,6 +34,7 @@ export class BeerCardElement {
   private placeAddButtonOnTheCard(): void {
     const cardActionsElement: HTMLDivElement = this.getCardActionsElement();
     const addToFavouritesButtonElement: HTMLButtonElement = document.createElement('button');
+    
     addToFavouritesButtonElement.classList.add('card__actions-add-to-favourites-button');
     addToFavouritesButtonElement.textContent = 'Add';
     cardActionsElement.append(addToFavouritesButtonElement);
@@ -43,6 +44,7 @@ export class BeerCardElement {
   public placeRemoveButtonOnTheCard(): void {
     const cardActionsElement: HTMLDivElement = this.getCardActionsElement();
     const removeFromFavouritesButtonElement: HTMLButtonElement = document.createElement('button');
+    
     removeFromFavouritesButtonElement.classList.add('card__actions-remove-from-favourites-button');
     removeFromFavouritesButtonElement.textContent = 'Remove';
     cardActionsElement.append(removeFromFavouritesButtonElement);
@@ -127,18 +129,21 @@ export class BeerCardElement {
 
   private changeAddButtonToRemoveButton(): void {
     const addToFavouritesButtonElement: HTMLButtonElement = this.getAddToFavouritesButton();
+    
     addToFavouritesButtonElement.remove();
     this.placeRemoveButtonOnTheCard();
   }
 
   private changeRemoveButtonToAddButton(): void {
     const removeFromFavouritesButtonElement: HTMLButtonElement = this.getRemoveFromFavouritesButton();
+    
     removeFromFavouritesButtonElement.remove();
     this.placeAddButtonOnTheCard();
   }
 
   private updateFavouritesCount(favouriteBeers: Beer[]): void {
     const favouritesCounterElement: HTMLSpanElement = getFavouritesCounterElement();
+    
     favouritesCounterElement.textContent = `${favouriteBeers.length}`;
   }
 }

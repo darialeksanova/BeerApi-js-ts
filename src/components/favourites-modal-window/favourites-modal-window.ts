@@ -24,12 +24,14 @@ export class ModalWindowElement {
     const favouriteBeersFromStorageAsString: string | null = localStorage.getItem('favouriteBeers');
 
     if (favouriteBeersFromStorageAsString) {
-      modalWindowElement.innerHTML = '';
       const favouriteBeersFromStorageAsArray: Beer[] = Array.from(JSON.parse(favouriteBeersFromStorageAsString));
+      modalWindowElement.innerHTML = '';
+
       favouriteBeersFromStorageAsArray.forEach((beer: Beer) => {
         const beerElement: HTMLLIElement = new BeerCardElement(beer, { isFavourite: true }).element;
-        modalWindowElement.append(beerElement);
         const removeFromFavouritesButtonElement: HTMLButtonElement | null = beerElement.querySelector('.card__actions-remove-from-favourites-button');
+
+        modalWindowElement.append(beerElement);
   
         if (!removeFromFavouritesButtonElement) {
           throw new Error('Remove from favourites button element not found!');
@@ -68,6 +70,7 @@ export class ModalWindowElement {
 
   private setModalBackdropClickListener(): void {
     const modalBackdropElement: HTMLDivElement = this.getModalBackdropElement();
+    
     modalBackdropElement.addEventListener('click', this.closeModal.bind(this));
   }
 

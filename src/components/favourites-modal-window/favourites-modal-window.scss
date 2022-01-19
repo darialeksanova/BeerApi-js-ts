@@ -4,7 +4,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 1000;
+  z-index: var(--modal-backdrop-zindex);
   display: block;
   background-color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
@@ -18,10 +18,10 @@
   padding: 25px;
   top: 50%;
   left: 50%;
-  z-index: 1001;
+  z-index: var(--modal-window-zindex);
   width: 600px;
   max-height: 90%;
-  background-color: var(--color-primary);
+  background-color: var(--color-accent);
   transform: translate(-50%, -50%);
   border-radius: 5px;
   overflow-y: auto;

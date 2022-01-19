@@ -11,6 +11,7 @@ export function addSearchValueToRecentSearches(searchInputValue: string): void {
 
     if (!recentSearchValues.includes(searchInputValue)) {
       const recentSearchesItemElement: HTMLLIElement = new RecentSearchesItem(searchInputValue).element;
+      
       recentSearchesElement.append(recentSearchesItemElement);
     } else {
       return;
