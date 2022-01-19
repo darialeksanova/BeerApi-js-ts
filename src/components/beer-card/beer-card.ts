@@ -119,7 +119,7 @@ export class BeerCardElement {
     const removeFromFavouritesButtonElement: HTMLButtonElement | null = this._element.querySelector<HTMLButtonElement>('.card__actions-remove-from-favourites-button');
 
     if (!removeFromFavouritesButtonElement) {
-      throw new Error('Add to favourites button element not found!');
+      throw new Error('remove from favourites button element not found!');
     }
 
     return removeFromFavouritesButtonElement;
