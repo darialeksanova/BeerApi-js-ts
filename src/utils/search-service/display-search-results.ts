@@ -8,9 +8,9 @@ export function displaySearchResults(searchResults: HTMLLIElement[]): void {
   resultsListElement.innerHTML = '';
 
   if (searchResults.length) {
-    searchResults.forEach((beer, index) => {
+    searchResults.forEach((beerElement, index) => {
       if (index < 5) {
-        resultsListElement.append(beer);
+        resultsListElement.append(beerElement);
       }
     });
   } else {

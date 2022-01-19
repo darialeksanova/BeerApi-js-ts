@@ -1,6 +1,6 @@
 import { KeyboardKey } from "../../constants/keyboard-key";
 import { getSearchButtonElement } from "../element-getters/get-search-button-element";
-import { searchBeer } from "./seerch-beer";
+import { searchBeer } from "./search-beer";
 
 export function handleSearchInput(event: KeyboardEvent): void {
   const searchButtonElement: HTMLButtonElement = getSearchButtonElement();

@@ -1,4 +1,5 @@
 import { Beer } from '../../types/beer';
+import { BeerCardOptions } from '../../types/beer-card-options';
 import { getFavouritesCounterElement } from '../../utils/element-getters/get-favourites-counter-element';
 import { disableFavouritesButton } from '../../utils/favourites-service/disable-favourites-button';
 import { enableFavouritesButton } from '../../utils/favourites-service/enable-favourites-button';
@@ -6,13 +7,10 @@ import { enableFavouritesButton } from '../../utils/favourites-service/enable-fa
 export class BeerCardElement {
   private _element: HTMLLIElement = document.createElement('li');
 
-  constructor(private beer: Beer) {
+  constructor(private beer: Beer, options?: BeerCardOptions) {
     this._element.classList.add('card');
     this._element.innerHTML = `
-      <div class="card__actions">
-        <button class="card__actions-add-to-favourites-button">Add</button>
-        <button class="card__actions-remove-from-favourites-button">Remove</button>
-      </div>
+      <div class="card__actions"></div>
       <div class="card__img">
         <img src=${beer.image_url} alt="image not found">
       </div>
@@ -21,16 +19,44 @@ export class BeerCardElement {
         <p class="card__text-description">${beer.description}</p>
       </div>`;
 
-    this.setAddToFavouritesButtonClickListener();
+    
+    if (options?.isFavourite) {
+      this.placeRemoveButtonOnTheCard();
+    } else {
+      this.placeAddButtonOnTheCard();
+    }
   }
 
   public get element(): HTMLLIElement {
     return this._element;
   }
 
-  private setAddToFavouritesButtonClickListener(): void {
-    const addToFavouritesButton: HTMLButtonElement = this.getAddToFavouritesButton();
-    addToFavouritesButton.addEventListener('click', this.addItemToFavourites.bind(this));
+  private placeAddButtonOnTheCard(): void {
+    const cardActionsElement: HTMLDivElement = this.getCardActionsElement();
+    const addToFavouritesButtonElement: HTMLButtonElement = document.createElement('button');
+    addToFavouritesButtonElement.classList.add('card__actions-add-to-favourites-button');
+    addToFavouritesButtonElement.textContent = 'Add';
+    cardActionsElement.append(addToFavouritesButtonElement);
+    addToFavouritesButtonElement.addEventListener('click', this.addItemToFavourites.bind(this));
+  }
+
+  public placeRemoveButtonOnTheCard(): void {
+    const cardActionsElement: HTMLDivElement = this.getCardActionsElement();
+    const removeFromFavouritesButtonElement: HTMLButtonElement = document.createElement('button');
+    removeFromFavouritesButtonElement.classList.add('card__actions-remove-from-favourites-button');
+    removeFromFavouritesButtonElement.textContent = 'Remove';
+    cardActionsElement.append(removeFromFavouritesButtonElement);
+    removeFromFavouritesButtonElement.addEventListener('click', this.removeItemFromFavourites.bind(this));
+  }
+
+  private getCardActionsElement(): HTMLDivElement {
+    const cardActionsElement: HTMLDivElement | null = this._element.querySelector<HTMLDivElement>('.card__actions');
+
+    if (!cardActionsElement) {
+      throw new Error('Card actions element not found!');
+    }
+
+    return cardActionsElement;
   }
 
   private addItemToFavourites(): void {
@@ -45,7 +71,6 @@ export class BeerCardElement {
       localStorage.setItem('favouriteBeers', JSON.stringify([beerObjToLocalStorage]));
       this.updateFavouritesCount([beerObjToLocalStorage]);
       this.changeAddButtonToRemoveButton();
-      this.setRemoveFromFavouritesButtonClickLIstener();
       enableFavouritesButton();
     } else {
       const favouriteBeersFromStorageParsed: Beer[] = JSON.parse(favouriteBeersFromStorageAsString);
@@ -55,14 +80,8 @@ export class BeerCardElement {
         localStorage.setItem('favouriteBeers', JSON.stringify([...favouriteBeersFromStorageParsed, beerObjToLocalStorage]));
         this.updateFavouritesCount([...favouriteBeersFromStorageParsed, beerObjToLocalStorage]);
         this.changeAddButtonToRemoveButton();
-        this.setRemoveFromFavouritesButtonClickLIstener();
       }
     }
-  }
-
-  private setRemoveFromFavouritesButtonClickLIstener(): void {
-    const removeFromFavouritesButton: HTMLButtonElement = this.getRemoveFromFavouritesButton();
-    removeFromFavouritesButton.addEventListener('click', this.removeItemFromFavourites.bind(this));
   }
 
   private removeItemFromFavourites(): void {
@@ -87,37 +106,35 @@ export class BeerCardElement {
   }
 
   private getAddToFavouritesButton(): HTMLButtonElement {
-    const addToFavouritesButton: HTMLButtonElement | null = this._element.querySelector<HTMLButtonElement>('.card__actions-add-to-favourites-button');
+    const addToFavouritesButtonElement: HTMLButtonElement | null = this._element.querySelector<HTMLButtonElement>('.card__actions-add-to-favourites-button');
 
-    if (!addToFavouritesButton) {
-      throw new Error('Add to favourites button not found!');
+    if (!addToFavouritesButtonElement) {
+      throw new Error('Add to favourites button element not found!');
     }
 
-    return addToFavouritesButton;
+    return addToFavouritesButtonElement;
   }
 
   private getRemoveFromFavouritesButton(): HTMLButtonElement {
-    const removeFromFavouritesButton: HTMLButtonElement | null = this._element.querySelector<HTMLButtonElement>('.card__actions-remove-from-favourites-button');
+    const removeFromFavouritesButtonElement: HTMLButtonElement | null = this._element.querySelector<HTMLButtonElement>('.card__actions-remove-from-favourites-button');
 
-    if (!removeFromFavouritesButton) {
-      throw new Error('Add to favourites button not found!');
+    if (!removeFromFavouritesButtonElement) {
+      throw new Error('Add to favourites button element not found!');
     }
 
-    return removeFromFavouritesButton;
+    return removeFromFavouritesButtonElement;
   }
 
   private changeAddButtonToRemoveButton(): void {
-    const addToFavouritesButton: HTMLButtonElement = this.getAddToFavouritesButton();
-    const removeFromFavouritesButton: HTMLButtonElement = this.getRemoveFromFavouritesButton();
-    addToFavouritesButton.style.display = 'none';
-    removeFromFavouritesButton.style.display = 'flex';
+    const addToFavouritesButtonElement: HTMLButtonElement = this.getAddToFavouritesButton();
+    addToFavouritesButtonElement.remove();
+    this.placeRemoveButtonOnTheCard();
   }
 
   private changeRemoveButtonToAddButton(): void {
-    const removeFromFavouritesButton: HTMLButtonElement = this.getRemoveFromFavouritesButton();
-    const addToFavouritesButton: HTMLButtonElement = this.getAddToFavouritesButton();
-    addToFavouritesButton.style.display = 'flex';
-    removeFromFavouritesButton.style.display = 'none';
+    const removeFromFavouritesButtonElement: HTMLButtonElement = this.getRemoveFromFavouritesButton();
+    removeFromFavouritesButtonElement.remove();
+    this.placeAddButtonOnTheCard();
   }
 
   private updateFavouritesCount(favouriteBeers: Beer[]): void {
