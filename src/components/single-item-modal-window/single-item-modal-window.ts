@@ -24,7 +24,7 @@ export class SingleItemModalWindow {
 
   private showSingleItem(): void {
     const modalWindowElement: HTMLDivElement = this.getModalWindowElement();
-    modalWindowElement.append(new BeerCardElement(this.beerItem).element);
+    modalWindowElement.append(new BeerCardElement(this.beerItem, { isImageClickable: false }).element);
   }
 
   private getModalWindowElement(): HTMLDivElement {

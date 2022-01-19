@@ -1,3 +1,4 @@
 export interface BeerCardOptions {
-  isFavourite: boolean;
+  isFavourite?: boolean;
+  isImageClickable?: boolean;
 }

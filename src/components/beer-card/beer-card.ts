@@ -13,7 +13,7 @@ export class BeerCardElement {
     this._element.classList.add('card');
     this._element.innerHTML = `
       <div class="card__actions"></div>
-      <div class="card__img">
+      <div class="card__img ${options?.isImageClickable ? 'clickable' : ''}">
         <img src=${beerItem.image_url} alt="image not found">
       </div>
       <div class="card__text">
@@ -28,7 +28,9 @@ export class BeerCardElement {
       this.placeAddButtonOnTheCard();
     }
 
-    this.setImageClickEventListener();
+    if (options?.isImageClickable) {
+      this.setImageClickEventListener();
+    }
   }
 
   public get element(): HTMLLIElement {
