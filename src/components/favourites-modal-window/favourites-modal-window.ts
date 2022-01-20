@@ -28,7 +28,7 @@ export class ModalWindowElement {
       modalWindowElement.innerHTML = '';
 
       favouriteBeersFromStorageAsArray.forEach((beer: Beer) => {
-        const beerElement: HTMLLIElement = new BeerCardElement(beer, { isFavourite: true }).element;
+        const beerElement: HTMLLIElement = new BeerCardElement(beer, { isFavourite: true, isImageClickable: false }).element;
         const removeFromFavouritesButtonElement: HTMLButtonElement | null = beerElement.querySelector('.card__actions-remove-from-favourites-button');
 
         modalWindowElement.append(beerElement);

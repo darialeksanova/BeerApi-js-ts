@@ -26,7 +26,7 @@ export function searchBeer(searchInputValue: string): void {
       beers.forEach((beer: Beer) => {
         if (beer.name.toLowerCase().includes(searchInputValue.toLowerCase()) 
           || beer.description.toLowerCase().includes(searchInputValue.toLowerCase())) {
-            searchResults.push(new BeerCardElement(beer, { isFavourite: checkIfIsFavourite(beer) }).element);
+            searchResults.push(new BeerCardElement(beer, { isFavourite: checkIfIsFavourite(beer), isImageClickable: true }).element);
         }
       });
 
